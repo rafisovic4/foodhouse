@@ -1,103 +1,62 @@
-import salat from '../../assets/cat-salat.svg';
-import margarita from '../../assets/car-margarita.svg';
-import burger from '../../assets/car-burger.svg';
-import free from '../../assets/car-potato-free.svg';
-import pizza from '../../assets/cat-piza.svg';
-import discount from '../../assets/cat-discount.svg';
-import Category from './Categories/Category';
+import Category from "./Categories/Category";
+import Tovar from "./Tovars/Tovar";
+import { useEffect, useState } from "react";
+import { initialCategories } from "../../data/categories.js";
+import { initialProducts } from "../../data/products.js";
 
-//Картинки товаров
-
-import salatFirst from '../../assets/item__image.png';
-import Tovar from './Tovars/Tovar';
 const Menu = () => {
+  const [categories, setCategories] = useState(initialCategories);
+  const [products, setProducts] = useState(initialProducts);
 
-    const categories = [
-        {
-            src: salat,
-            text: 'Салаты',
-        },
-        {
-            src: margarita,
-            text: 'Напитки',
-        },
-        {
-            src: burger,
-            text: 'Бургеры',
-        },
-        {
-            src: free,
-            text: 'Закуски',
-        },
-        {
-            src: pizza,
-            text: 'Пицца',
-        },
-        {
-            src: discount,
-            text: 'Акции',
-        }
-    ]
+  const [selectedCategory, setSelectedCategory] = useState("none");
 
-    const tovars = [
-        {
-            src: salatFirst,
-            name: 'Салат "Греческий"',
-            description: '300 грамм - 1 порция',
-            info: '36 - белков, 11 - жиров, 55 - углеводов',
-        },
-        {
-            src: salatFirst,
-            name: 'Салат "Греческий"',
-            description: '300 грамм - 1 порция',
-            info: '36 - белков, 11 - жиров, 55 - углеводов',
-        },
-        {
-            src: salatFirst,
-            name: 'Салат "Греческий"',
-            description: '300 грамм - 1 порция',
-            info: '36 - белков, 11 - жиров, 55 - углеводов',
-        },
-        {
-            src: salatFirst,
-            name: 'Салат "Греческий"',
-            description: '300 грамм - 1 порция',
-            info: '36 - белков, 11 - жиров, 55 - углеводов',
-        },
+  const onChangeSelectedCategory = (type) => {
+    setSelectedCategory(type);
+  };
 
-    ]
+  useEffect(() => {
+    setProducts((prevState) => {
+      prevState = [...prevState];
 
-    return (
-        <section className="menu-tovar">
-        <div className="container">
-          <h2 className="menu-h2">Наше меню</h2>
-          <div className="h2-underline"></div>
-          <div className="menu-categories">
-              {
-                  categories.map((category) => {
-                      return (
-                          <Category url={category.src} text={category.text} />
-                      )
-                  })
-              }
-          </div>
-          <div className="menu-tovar-card">
-            <div className="menu-tovar-card__elem">
-              {
-                  tovars.map((tovar) => {
-                      return (
-                          <Tovar tovar={tovar}/>
-                      )
-                  })
-              }
-              </div>
-          </div>
-          <div className="more-tovar-button">
-            Показать ещё
-          </div>
+      prevState = initialProducts.filter(
+        (product) => product.type === selectedCategory
+      );
+
+      if (selectedCategory === "none") {
+        prevState = initialProducts;
+      }
+
+      return prevState;
+    });
+  }, [selectedCategory]);
+
+
+  return (
+    <section className="menu-tovar">
+      <div className="container">
+        <h2 className="menu-h2">Наше меню</h2>
+        <div className="h2-underline"></div>
+        <div className="menu-categories">
+          {categories.map((category) => {
+            return (
+              <Category
+                category={category}
+                onChangeSelectedCategory={onChangeSelectedCategory}
+              />
+            );
+          })}
         </div>
-      </section>
-    )
-}
+        <div className="menu-tovar-card">
+          {
+              products.length === 0 ? <h1>Продуктов в данной категории нет</h1> : products.map((tovar) => {
+                return <Tovar tovar={tovar} />;
+              })
+          }
+        </div>
+        <div className="more-tovar-button">Показать ещё</div>
+      </div>
+    </section>
+  );
+};
 
 export default Menu;
