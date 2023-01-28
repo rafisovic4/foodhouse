@@ -1,3 +1,6 @@
+import logotype from "../../assets/logotype.svg";
+import basketIcon from "../../assets/basket-icon.svg";
+
 const Header = () => {
     return (
         <header>
@@ -5,7 +8,7 @@ const Header = () => {
           <div className="header-osnova">
             <div className="logotype-header">
               <img
-                src="./src/assets/logotype.svg"
+                src={logotype}
                 alt="logotype"
                 className="logotype-img"
               />
@@ -26,7 +29,7 @@ const Header = () => {
             </nav>
             <div className="basket-icon">
               <div className="basket-icon">
-                <img src="./src/assets/basket-icon.svg" alt="Корзина" />
+                <img src={basketIcon} alt="Корзина" />
               </div>
               <div className="number-div">12</div>
             </div>

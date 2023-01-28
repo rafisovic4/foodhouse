@@ -1,3 +1,5 @@
+import bannerImage from "../../assets/basket-img.png";
+
 const Banner = () => {
     return (
         <section className="banner">
@@ -17,7 +19,7 @@ const Banner = () => {
               </div>
             </div>
             <div className="rightside-info">
-              <img src="./src/assets/basket-img.png" alt="" className="banner-image" />
+              <img src={bannerImage} alt="" className="banner-image" />
             </div>
           </div>
         </div>
